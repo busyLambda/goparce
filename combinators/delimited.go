@@ -1,7 +1,7 @@
 package combinators
 
 import (
-	. "github.com/busylambda/combine"
+	. "github.com/busylambda/goparce"
 )
 
 func Delimited[T any, D any](left Parser[D], inner Parser[T], right Parser[D]) Parser[T] {

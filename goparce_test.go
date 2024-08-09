@@ -1,16 +1,18 @@
-package kombine_test
+package goparce_test
 
 import (
+	"fmt"
+	"io/ioutil"
 	"log"
 	"testing"
 	"unicode"
 
-	kombine "github.com/busylambda/combine"
-	. "github.com/busylambda/combine/combinators"
+	goparce "github.com/busylambda/goparce"
+	. "github.com/busylambda/goparce/combinators"
 )
 
 func TestString(t *testing.T) {
-	input := kombine.NewInput("matchme")
+	input := goparce.NewInput("matchme")
 	str, err := String("matchme")(input)
 	if err != nil {
 		log.Fatalf(err.Error())
@@ -22,7 +24,7 @@ func TestString(t *testing.T) {
 }
 
 func TestDelimited(t *testing.T) {
-	input := kombine.NewInput("[settings]")
+	input := goparce.NewInput("[settings]")
 
 	left := String("[")
 	inner := String("settings")
@@ -39,7 +41,7 @@ func TestDelimited(t *testing.T) {
 }
 
 func TestParseIdentifier(t *testing.T) {
-	input := kombine.NewInput("array_number_1")
+	input := goparce.NewInput("array_number_1")
 
 	isIdentCont := func(r rune) bool {
 		return unicode.IsLetter(r) || r == '_' || unicode.IsNumber(r)
@@ -53,8 +55,8 @@ func TestParseIdentifier(t *testing.T) {
 		literal string
 	}
 
-	identifier := func() kombine.Parser[Identifier] {
-		return func(input *kombine.Input) (*Identifier, error) {
+	identifier := func() goparce.Parser[Identifier] {
+		return func(input *goparce.Input) (*Identifier, error) {
 			start, err := Rune(isIdentStart)(input)
 			if err != nil {
 				return nil, err
@@ -81,21 +83,29 @@ func TestParseIdentifier(t *testing.T) {
 	}
 }
 
-/*
-func TestFuncArgs(t *testing.T) {
-	input := kombine.NewInput("(a: int, b: int)")
+func TestStripWhitespace(t *testing.T) {
+	input := goparce.NewInput("  hello   ")
+	_, err := StripWhitespace(String("hello"))(input)
+	if err != nil {
+		log.Println(err.Error())
+		log.Fatalf(`Result did not match "   hello   "`)
+	}
 
-	left := String("[")
-	inner := String("settings")
-	right := String("]")
+}
 
-	str, err := Delimited(left, inner, right)(input)
+func Test1millionStrings(t *testing.T) {
+	data, err := ioutil.ReadFile("output.txt")
+	if err != nil {
+		fmt.Println("Error reading file:", err)
+		return
+	}
+
+	content := string(data)
+
+	input := goparce.NewInput(content)
+
+	_, err = MultOne(StripWhitespace(String("hello1")))(input)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
-
-	if *str != "settings" {
-		log.Fatalf(`Result did not match "settings"`)
-	}
 }
-*/

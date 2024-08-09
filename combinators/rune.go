@@ -3,7 +3,7 @@ package combinators
 import (
 	"fmt"
 
-	. "github.com/busylambda/combine"
+	. "github.com/busylambda/goparce"
 )
 
 func Rune(predicate func(rune) bool) Parser[rune] {

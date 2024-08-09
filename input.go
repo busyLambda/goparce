@@ -1,4 +1,4 @@
-package kombine
+package goparce
 
 import (
 	"bufio"

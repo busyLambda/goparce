@@ -1,7 +1,7 @@
 package combinators
 
 import (
-	. "github.com/busylambda/combine"
+	. "github.com/busylambda/goparce"
 )
 
 func MultOne[T any](inner Parser[T]) Parser[[]T] {

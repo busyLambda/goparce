@@ -1,9 +1,11 @@
 package combinators
 
-import kombine "github.com/busylambda/combine"
+import (
+	. "github.com/busylambda/goparce"
+)
 
-func Opt[T any](inner kombine.Parser[T]) kombine.Parser[T] {
-	return func(input *kombine.Input) (*T, error) {
+func Opt[T any](inner Parser[T]) Parser[T] {
+	return func(input *Input) (*T, error) {
 		result, err := inner(input)
 		if err != nil {
 			return nil, nil

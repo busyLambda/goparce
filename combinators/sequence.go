@@ -1,7 +1,7 @@
 package combinators
 
 import (
-	. "github.com/busylambda/combine"
+	. "github.com/busylambda/goparce"
 )
 
 func Sequence[T any](parsers ...Parser[T]) Parser[[]T] {
