@@ -1,8 +1,6 @@
 package combinators
 
 import (
-	"fmt"
-
 	. "github.com/busylambda/goparce"
 )
 
@@ -16,7 +14,9 @@ func String(str string) Parser[string] {
 		}
 
 		if p != str {
-			return nil, fmt.Errorf("Error here later.")
+      err = NewMismatchErr(str, p)
+
+			return nil, err
 		}
 
 		result, _ := input.PopFrontN(n)
