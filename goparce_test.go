@@ -119,3 +119,14 @@ func TestSeparatedList(t *testing.T) {
 		log.Fatalf(err.Error())
 	}
 }
+
+func TestOpt(t *testing.T) {
+	input := goparce.NewInput("function")
+
+	parser := Sequence((Opt(String("public"))), StripWhitespace(String("function")))
+
+	_, err := parser(input)
+	if err != nil {
+		panic(err.Error())
+	}
+}

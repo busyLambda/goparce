@@ -8,10 +8,8 @@ import (
 
 type Input struct {
 	reader bufio.Reader
-}
-
-func CollectRunes(runes *[]*rune) {
-
+	length int
+	eaten  int
 }
 
 func NewInput(input string) *Input {
@@ -23,12 +21,18 @@ func NewInput(input string) *Input {
 func (self *Input) PopFrontN(n int) (string, error) {
 	buf := make([]byte, n)
 	_, err := io.ReadFull(&self.reader, buf)
+	if err == nil {
+		self.eaten += n
+	}
 	return string(buf), err
 }
 
 func (self *Input) PopFront() (rune, error) {
 	buf := make([]byte, 1)
 	_, err := io.ReadFull(&self.reader, buf)
+	if err == nil {
+		self.eaten += 1
+	}
 	return rune(buf[0]), err
 }
 
@@ -48,4 +52,20 @@ func (self *Input) Peek() (rune, error) {
 	}
 
 	return rune(b[0]), nil
+}
+
+func (self *Input) UnreadRune() error {
+	err := self.reader.UnreadRune()
+	if err == nil {
+		self.eaten -= 1
+	}
+	return err
+}
+
+func (self *Input) Eaten() int {
+	return self.eaten
+}
+
+func (self *Input) Length() int {
+	return self.length
 }
