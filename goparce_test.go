@@ -90,7 +90,6 @@ func TestStripWhitespace(t *testing.T) {
 		log.Println(err.Error())
 		log.Fatalf(`Result did not match "   hello   "`)
 	}
-
 }
 
 func Test1millionStrings(t *testing.T) {
@@ -105,6 +104,17 @@ func Test1millionStrings(t *testing.T) {
 	input := goparce.NewInput(content)
 
 	_, err = MultOne(StripWhitespace(String("hello1")))(input)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+}
+
+func TestSeparatedList(t *testing.T) {
+	input := goparce.NewInput("item, item, item, item, item, item")
+
+	parser := SepList(StripWhitespace(String("item")), String(","))
+
+	_, err := parser(input)
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
