@@ -13,8 +13,9 @@ func Sequence[T any](parsers ...Parser[T]) Parser[[]T] {
 			if err != nil {
 				return nil, err
 			}
-
-			results = append(results, *result)
+			if result != nil {
+				results = append(results, *result)
+			}
 		}
 
 		return &results, nil
