@@ -14,7 +14,7 @@ func Rune(predicate func(rune) bool) Parser[rune] {
 		}
 
 		if !predicate(r) {
-			return nil, fmt.Errorf("TODO: Put a custom error here.")
+			return nil, fmt.Errorf("`%s` did not meet the predicate", r)
 		}
 
 		r, _ = input.PopFront()
