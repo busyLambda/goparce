@@ -69,3 +69,12 @@ func (self *Input) Eaten() int {
 func (self *Input) Length() int {
 	return self.length
 }
+
+func (self *Input) Matches(str string) bool {
+	peeked, err := self.PeekN(len(str))
+	if err != nil {
+		return false
+	}
+
+	return peeked == str
+}
