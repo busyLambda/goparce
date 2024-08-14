@@ -10,7 +10,7 @@ func MultZero[T any](inner Parser[T]) Parser[[]T] {
 
 		for {
 			result, err := inner(input)
-			if err != nil {
+			if err != nil || result == nil {
 				break
 			}
 
