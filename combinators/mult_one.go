@@ -9,7 +9,7 @@ func MultOne[T any](inner Parser[T]) Parser[[]T] {
 		results := []T{}
 
 		result, err := inner(input)
-		if err != nil {
+		if err != nil || result == nil {
 			return nil, err
 		}
 
@@ -17,7 +17,7 @@ func MultOne[T any](inner Parser[T]) Parser[[]T] {
 
 		for {
 			result, err := inner(input)
-			if err != nil {
+			if err != nil || result == nil {
 				break
 			}
 
